@@ -10,7 +10,7 @@ export const createTask = async (req: Request, res: Response) => {
       success: true,
       message: "Task added successfully",
     });
-  } catch (error) {
+  } catch (error: any) {
     res.json({
       success: false,
       message: error.message,
