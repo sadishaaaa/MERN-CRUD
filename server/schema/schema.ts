@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
 
-export const task = new Schema({
+export const taskSchema = new Schema<ITask>({
   name: {
     type: String,
     required: [true, "Please enter the name of your task"],
