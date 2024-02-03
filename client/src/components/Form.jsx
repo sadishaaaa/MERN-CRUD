@@ -37,7 +37,9 @@ const Form = () => {
         />
         <br />
         <br />
-        <label htmlFor="description">Details: </label>
+        <label htmlFor="description" className="text-red-400">
+          Details:{" "}
+        </label>
         <input
           id="description"
           type="text"
