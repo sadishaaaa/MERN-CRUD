@@ -2,12 +2,14 @@ import express, { Request, Response, NextFunction, json } from "express";
 import taskRouter from "./route/taskRoute";
 import connectdb from "../src/connectdb";
 import config from "./config";
+import cors from "cors";
 const expressApp = express();
 
 expressApp.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.log("Request received");
   next();
 });
+expressApp.use(cors());
 
 expressApp.use(json());
 expressApp.use("/task", taskRouter);
