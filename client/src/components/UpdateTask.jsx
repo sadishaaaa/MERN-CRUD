@@ -1,28 +1,35 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-const Form = () => {
+import { useNavigate, useParams } from "react-router-dom";
+
+const UpdateTask = () => {
   let [name, setName] = useState("");
   let [description, setDescription] = useState("");
+  let params = useParams();
+  let navigate = useNavigate();
+  let getSpecificTask = async () => {
+    let result = await axios({
+      url: `http://localhost:5000/task/${params.id}`,
+      method: `GET`,
+    });
+    let data = result.data.data;
+    setName(data.name);
+    setDescription(data.description);
+  };
+  useEffect(() => {
+    getSpecificTask();
+  }, []);
   let handleSubmit = async (e) => {
-    e.preventDefault();
     let data = {
       name: name,
       description: description,
     };
-    try {
-      let result = await axios({
-        url: `http://localhost:5000/task/`,
-        method: "POST",
-        data: data,
-      });
-
-      console.log(result);
-    } catch (error) {
-      console.error("Axios Error:", error.message);
-    }
+    let result = await axios({
+      url: `http://localhost:5000/task/${params.id}`,
+      method: "PATCH",
+      data: data,
+    });
   };
-
   return (
     <div className=" p-4">
       <form
@@ -68,11 +75,14 @@ const Form = () => {
           />
         </div>
         <div className="mb-5">
+          <button type="submit">Update</button>
           <button
-            type="submit"
-            className="bg-blue-500 text-white p-2 rounded-md"
+            type="button"
+            onClick={() => {
+              navigate(`/allTask`);
+            }}
           >
-            Add task
+            back to all tasks
           </button>
         </div>
       </form>
@@ -80,4 +90,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default UpdateTask;
